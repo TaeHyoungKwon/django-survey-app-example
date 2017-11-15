@@ -1,11 +1,16 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, get_object_or_404
 
 from .models import Question
 
+
 def detail(request, question_id):
-    response = "Detail page id : %s"
-    return HttpResponse(response % question_id)
+    q = get_object_or_404(Question, pk = question_id)
+
+    context = {
+        "question" : q
+    }
+    return render(request, 'polls/detail.html', context)
 
 
 def index(request):
